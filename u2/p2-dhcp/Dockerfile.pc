@@ -1,0 +1,19 @@
+FROM ubuntu:22.04
+ARG PC_ROOT_PASSWORD=osvp2026
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y \
+        openssh-server \
+        isc-dhcp-client \
+        iproute2 \
+        iputils-ping \
+        dnsutils \
+        curl && \
+    mkdir -p /run/sshd && \
+    echo "root:${PC_ROOT_PASSWORD}" | chpasswd && \
+    sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]

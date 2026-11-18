@@ -1,4 +1,4 @@
-name: practica-dns
+name: practica-01-dns
 
 services:
   dns:
